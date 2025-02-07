@@ -13,9 +13,9 @@ export declare class OrdersController {
             price: number;
         }[];
         id: string;
-        status: import(".prisma/client").$Enums.OrderStatus;
         totalAmount: number;
         totalItems: number;
+        status: import(".prisma/client").$Enums.OrderStatus;
         paid: boolean;
         paidAt: Date | null;
         createdAt: Date;
@@ -24,9 +24,9 @@ export declare class OrdersController {
     findAll(orderPaginationDto: OrderPaginationDto): Promise<{
         data: {
             id: string;
-            status: import(".prisma/client").$Enums.OrderStatus;
             totalAmount: number;
             totalItems: number;
+            status: import(".prisma/client").$Enums.OrderStatus;
             paid: boolean;
             paidAt: Date | null;
             createdAt: Date;
@@ -46,9 +46,9 @@ export declare class OrdersController {
             price: number;
         }[];
         id: string;
-        status: import(".prisma/client").$Enums.OrderStatus;
         totalAmount: number;
         totalItems: number;
+        status: import(".prisma/client").$Enums.OrderStatus;
         paid: boolean;
         paidAt: Date | null;
         createdAt: Date;
@@ -56,9 +56,9 @@ export declare class OrdersController {
     }>;
     changeOrderStatus(changeOrderStatusDto: ChangeOrderStatusDto): Promise<{
         id: string;
-        status: import(".prisma/client").$Enums.OrderStatus;
         totalAmount: number;
         totalItems: number;
+        status: import(".prisma/client").$Enums.OrderStatus;
         paid: boolean;
         paidAt: Date | null;
         createdAt: Date;

@@ -8,9 +8,9 @@ const config_1 = require("./config");
 async function bootstrap() {
     const logger = new common_1.Logger('OrdersMS-Main');
     const app = await core_1.NestFactory.createMicroservice(app_module_1.AppModule, {
-        transport: microservices_1.Transport.TCP,
+        transport: microservices_1.Transport.NATS,
         options: {
-            port: config_1.envs.port,
+            servers: config_1.envs.natsServers
         },
     });
     app.useGlobalPipes(new common_1.ValidationPipe({

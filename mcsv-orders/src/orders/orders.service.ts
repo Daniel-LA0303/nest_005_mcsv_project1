@@ -5,7 +5,7 @@ import { ChangeOrderStatusDto } from './dto';
 import { firstValueFrom } from 'rxjs';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { OrderPaginationDto } from './dto/order-pagination.dto';
-import { PRODUCT_SERVICE } from 'src/config';
+import { NATS_SERVICE, PRODUCT_SERVICE } from 'src/config';
 import { PrismaClient } from '@prisma/client';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class OrdersService extends PrismaClient implements OnModuleInit{
   private readonly logger = new Logger('OrdersService');
 
   constructor(
-    @Inject(PRODUCT_SERVICE) private readonly productsClient: ClientProxy,
+    @Inject(NATS_SERVICE) private readonly productsClient: ClientProxy,
   ) {
     super();
   }

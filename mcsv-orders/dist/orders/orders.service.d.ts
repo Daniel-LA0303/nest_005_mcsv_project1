@@ -17,9 +17,9 @@ export declare class OrdersService extends PrismaClient implements OnModuleInit 
             price: number;
         }[];
         id: string;
-        status: import(".prisma/client").$Enums.OrderStatus;
         totalAmount: number;
         totalItems: number;
+        status: import(".prisma/client").$Enums.OrderStatus;
         paid: boolean;
         paidAt: Date | null;
         createdAt: Date;
@@ -28,9 +28,9 @@ export declare class OrdersService extends PrismaClient implements OnModuleInit 
     findAll(orderPaginationDto: OrderPaginationDto): Promise<{
         data: {
             id: string;
-            status: import(".prisma/client").$Enums.OrderStatus;
             totalAmount: number;
             totalItems: number;
+            status: import(".prisma/client").$Enums.OrderStatus;
             paid: boolean;
             paidAt: Date | null;
             createdAt: Date;
@@ -50,9 +50,9 @@ export declare class OrdersService extends PrismaClient implements OnModuleInit 
             price: number;
         }[];
         id: string;
-        status: import(".prisma/client").$Enums.OrderStatus;
         totalAmount: number;
         totalItems: number;
+        status: import(".prisma/client").$Enums.OrderStatus;
         paid: boolean;
         paidAt: Date | null;
         createdAt: Date;
@@ -60,9 +60,9 @@ export declare class OrdersService extends PrismaClient implements OnModuleInit 
     }>;
     changeStatus(changeOrderStatusDto: ChangeOrderStatusDto): Promise<{
         id: string;
-        status: import(".prisma/client").$Enums.OrderStatus;
         totalAmount: number;
         totalItems: number;
+        status: import(".prisma/client").$Enums.OrderStatus;
         paid: boolean;
         paidAt: Date | null;
         createdAt: Date;

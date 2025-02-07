@@ -147,7 +147,7 @@ let OrdersService = class OrdersService extends client_1.PrismaClient {
 exports.OrdersService = OrdersService;
 exports.OrdersService = OrdersService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, common_1.Inject)(config_1.PRODUCT_SERVICE)),
+    __param(0, (0, common_1.Inject)(config_1.NATS_SERVICE)),
     __metadata("design:paramtypes", [microservices_1.ClientProxy])
 ], OrdersService);
 //# sourceMappingURL=orders.service.js.map
