@@ -17,5 +17,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./change-order-status.dto"), exports);
 __exportStar(require("./create-order.dto"), exports);
 __exportStar(require("./order-item.dto"), exports);
+__exportStar(require("./paid-order.dto"), exports);
 __exportStar(require("./update-order.dto"), exports);
 //# sourceMappingURL=index.js.map

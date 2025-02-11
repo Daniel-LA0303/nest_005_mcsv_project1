@@ -19,9 +19,9 @@ const microservices_1 = require("@nestjs/microservices");
 const config_1 = require("../config");
 const client_1 = require("@prisma/client");
 let OrdersService = class OrdersService extends client_1.PrismaClient {
-    constructor(productsClient) {
+    constructor(client) {
         super();
-        this.productsClient = productsClient;
+        this.client = client;
         this.logger = new common_1.Logger('OrdersService');
     }
     async onModuleInit() {
@@ -31,7 +31,7 @@ let OrdersService = class OrdersService extends client_1.PrismaClient {
     async create(createOrderDto) {
         try {
             const productIds = createOrderDto.items.map((item) => item.productId);
-            const products = await (0, rxjs_1.firstValueFrom)(this.productsClient.send({ cmd: 'validate_products' }, productIds));
+            const products = await (0, rxjs_1.firstValueFrom)(this.client.send({ cmd: 'validate_products' }, productIds));
             const totalAmount = createOrderDto.items.reduce((acc, orderItem) => {
                 const price = products.find((product) => product.id === orderItem.productId).price;
                 return price * orderItem.quantity;
@@ -122,7 +122,7 @@ let OrdersService = class OrdersService extends client_1.PrismaClient {
             });
         }
         const productIds = order.OrderItem.map((orderItem) => orderItem.productId);
-        const products = await (0, rxjs_1.firstValueFrom)(this.productsClient.send({ cmd: 'validate_products' }, productIds));
+        const products = await (0, rxjs_1.firstValueFrom)(this.client.send({ cmd: 'validate_products' }, productIds));
         return {
             ...order,
             OrderItem: order.OrderItem.map((orderItem) => ({
@@ -142,6 +142,38 @@ let OrdersService = class OrdersService extends client_1.PrismaClient {
             where: { id },
             data: { status: status },
         });
+    }
+    async createPaymentSession(order) {
+        const paymentSession = await (0, rxjs_1.firstValueFrom)(this.client.send('create.payment.session', {
+            orderId: order.id,
+            currency: 'usd',
+            items: order.OrderItem.map(item => ({
+                name: item.name,
+                price: item.price,
+                quantity: item.quantity,
+            })),
+        }));
+        return paymentSession;
+    }
+    async paidOrder(paidOrderDto) {
+        this.logger.log('Order Paid');
+        this.logger.log(paidOrderDto);
+        const order = await this.order.update({
+            where: { id: paidOrderDto.orderId },
+            data: {
+                status: 'PAID',
+                paid: true,
+                paidAt: new Date(),
+                stripeChargeId: paidOrderDto.stripePaymentId,
+                OrderReceipt: {
+                    create: {
+                        receiptUrl: paidOrderDto.receiptUrl
+                    }
+                }
+            }
+        });
+        console.log("Order updated form order service", order);
+        return order;
     }
 };
 exports.OrdersService = OrdersService;

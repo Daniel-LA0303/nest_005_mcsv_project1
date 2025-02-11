@@ -1,13 +1,14 @@
 import { OnModuleInit } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { ChangeOrderStatusDto } from './dto';
+import { ChangeOrderStatusDto, PaidOrderDto } from './dto';
 import { ClientProxy } from '@nestjs/microservices';
 import { OrderPaginationDto } from './dto/order-pagination.dto';
 import { PrismaClient } from '@prisma/client';
+import { OrderWithProducts } from './interfaces/order-with-produts.interface';
 export declare class OrdersService extends PrismaClient implements OnModuleInit {
-    private readonly productsClient;
+    private readonly client;
     private readonly logger;
-    constructor(productsClient: ClientProxy);
+    constructor(client: ClientProxy);
     onModuleInit(): Promise<void>;
     create(createOrderDto: CreateOrderDto): Promise<{
         OrderItem: {
@@ -22,6 +23,7 @@ export declare class OrdersService extends PrismaClient implements OnModuleInit 
         status: import(".prisma/client").$Enums.OrderStatus;
         paid: boolean;
         paidAt: Date | null;
+        stripeChargeId: string | null;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -33,6 +35,7 @@ export declare class OrdersService extends PrismaClient implements OnModuleInit 
             status: import(".prisma/client").$Enums.OrderStatus;
             paid: boolean;
             paidAt: Date | null;
+            stripeChargeId: string | null;
             createdAt: Date;
             updatedAt: Date;
         }[];
@@ -55,6 +58,7 @@ export declare class OrdersService extends PrismaClient implements OnModuleInit 
         status: import(".prisma/client").$Enums.OrderStatus;
         paid: boolean;
         paidAt: Date | null;
+        stripeChargeId: string | null;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -65,6 +69,19 @@ export declare class OrdersService extends PrismaClient implements OnModuleInit 
         status: import(".prisma/client").$Enums.OrderStatus;
         paid: boolean;
         paidAt: Date | null;
+        stripeChargeId: string | null;
+        createdAt: Date;
+        updatedAt: Date;
+    }>;
+    createPaymentSession(order: OrderWithProducts): Promise<any>;
+    paidOrder(paidOrderDto: PaidOrderDto): Promise<{
+        id: string;
+        totalAmount: number;
+        totalItems: number;
+        status: import(".prisma/client").$Enums.OrderStatus;
+        paid: boolean;
+        paidAt: Date | null;
+        stripeChargeId: string | null;
         createdAt: Date;
         updatedAt: Date;
     }>;

@@ -5,7 +5,6 @@ export enum OrderStatus {
   CANCELLED = 'CANCELLED',
 }
 
-
 export const OrderStatusList = [
   OrderStatus.PENDING,
   OrderStatus.DELIVERED,

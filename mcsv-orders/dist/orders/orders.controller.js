@@ -23,8 +23,13 @@ let OrdersController = class OrdersController {
     constructor(ordersService) {
         this.ordersService = ordersService;
     }
-    create(createOrderDto) {
-        return this.ordersService.create(createOrderDto);
+    async create(createOrderDto) {
+        const order = await this.ordersService.create(createOrderDto);
+        const paymentSession = await this.ordersService.createPaymentSession(order);
+        return {
+            order,
+            paymentSession,
+        };
     }
     findAll(orderPaginationDto) {
         return this.ordersService.findAll(orderPaginationDto);
@@ -35,6 +40,9 @@ let OrdersController = class OrdersController {
     changeOrderStatus(changeOrderStatusDto) {
         return this.ordersService.changeStatus(changeOrderStatusDto);
     }
+    paidOrder(paidOrderDto) {
+        return this.ordersService.paidOrder(paidOrderDto);
+    }
 };
 exports.OrdersController = OrdersController;
 __decorate([
@@ -42,7 +50,7 @@ __decorate([
     __param(0, (0, microservices_1.Payload)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_order_dto_1.CreateOrderDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], OrdersController.prototype, "create", null);
 __decorate([
     (0, microservices_1.MessagePattern)('findAllOrders'),
@@ -65,6 +73,13 @@ __decorate([
     __metadata("design:paramtypes", [dto_1.ChangeOrderStatusDto]),
     __metadata("design:returntype", void 0)
 ], OrdersController.prototype, "changeOrderStatus", null);
+__decorate([
+    (0, microservices_1.EventPattern)('payment.succeeded'),
+    __param(0, (0, microservices_1.Payload)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [dto_1.PaidOrderDto]),
+    __metadata("design:returntype", void 0)
+], OrdersController.prototype, "paidOrder", null);
 exports.OrdersController = OrdersController = __decorate([
     (0, common_1.Controller)("orders"),
     __metadata("design:paramtypes", [orders_service_1.OrdersService])
